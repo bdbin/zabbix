@@ -4,13 +4,13 @@ export PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~
 # ILNMPZ（Installation Linux Nginx MySQL Zabbix）Unattended PHP Zabbix Development Environment Tool
 # Installation Zabbix Monitoring System Script
 # Author: Renwole
-# Last update 2020/7/17
+# Last update 07/10/2020
 # Script support highly customized
 # Thank you for using Renwole script
 
 # Application Version,Can be changed as needed
 php_v="7.4.8"
-nginx_v="1.19.1"
+nginx_v="1.19.13"
 libzip_v="1.7.3"
 libiconv_v="1.16"
 mysql_v="8.0.21"
@@ -75,6 +75,9 @@ Generic_packages(){
 	[[ -e "/etc/yum.repos.d/CentOS-PowerTools.repo" ]] && dnf config-manager --set-enabled PowerTools
 	for packages in wget tar curl gcc gcc-c++ make cmake3 openssl openssl-devel jemalloc jemalloc-devel;
 	do dnf -y install ${packages}; done && ln -sf /usr/bin/cmake3 /usr/bin/cmake > /dev/null 2>&1
+
+  # CentOS 8 mysql: error while loading shared libraries: libncurses.so.5
+  dnf install ncurses ncurses-compat-libs -y
 }
 
 # Nginx dependent packages
@@ -890,4 +893,4 @@ case "${zabbix_yn}" in
   ;;
 esac
 
-[[ -e "/apps/server" ]] && Checkservice
+Checkservice
